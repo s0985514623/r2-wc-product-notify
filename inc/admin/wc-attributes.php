@@ -1,16 +1,13 @@
 <?php
-// $test='test';
-// var_dump($test);
-// require_once __DIR__ . '/../../assets/js/r2-wc-ajax.js';
 
-
-
+//Woo 自訂日期屬性
 add_action('admin_enqueue_scripts', 'enqueue_r2_wc_ajax');
 function enqueue_r2_wc_ajax()
 {
 	// 添加自定义 JavaScript 文件，并自动加载 WordPress 默认的 jQuery 版本号
 	wp_enqueue_script('r2-wc-ajax', home_url() . '/wp-content/plugins/r2-wc-product-notify/assets/js/r2-wc-ajax.js', array('jquery'), false, true);
 	wp_enqueue_script('jquery-ui-dialog');
+	wp_enqueue_style('wp-jquery-ui-dialog');
 }
 
 
@@ -141,46 +138,3 @@ function rudr_attr_select($attribute_taxonomy, $i, $attribute)
 
 <?php
 }
-
-// 添加自定義商品欄位=>簡易商品
-// function custom_add_product_fields()
-// {
-
-// 	// 添加一個自定義欄位 "重量"
-// 	woocommerce_wp_text_input(array(
-// 		'id'          => '_custom_weight',
-// 		'label'       => '重量',
-// 		'placeholder' => '輸入重量',
-// 		'type'        => 'date', // 這裡設定為數字類型
-// 		'desc_tip'    => true,
-// 	));
-// }
-// add_action('woocommerce_product_options_general_product_data', 'custom_add_product_fields');
-
-// // 儲存自定義商品欄位的值
-// function custom_save_product_fields($product)
-// {
-
-// 	// 儲存 "重量" 欄位的值
-// 	if (isset($_POST['_custom_weight'])) {
-// 		$product->update_meta_data('_custom_weight', floatval($_POST['_custom_weight']));
-// 	}
-// }
-// add_action('woocommerce_admin_process_product_object', 'custom_save_product_fields');
-
-// // 顯示自定義商品欄位的值在前端
-// function custom_display_product_fields()
-// {
-// 	global $product;
-
-// 	// 取得 "重量" 欄位的值
-
-// 	$custom_weight = $product->get_meta('_custom_weight');
-// 	// 顯示在商品頁面
-// 	echo '<div>';
-// 	if (!empty($custom_weight)) {
-// 		echo '<strong>重量:</strong> ' . esc_html($custom_weight) . ' kg<br>';
-// 	}
-// 	echo '</div>';
-// }
-// add_action('woocommerce_single_product_summary', 'custom_display_product_fields', 25);
