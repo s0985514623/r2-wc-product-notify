@@ -7,11 +7,13 @@
 </head>
 
 <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
-	<?php do_action('thwec_before_contents'); ?><?php if (!isset($order) && isset($gift_card->order_id)) {
-																								$order = wc_get_order($gift_card->order_id);
-																							} ?><?php if (isset($order) && is_a($order, 'WC_Order_Refund')) {
-																											$order = wc_get_order($order->get_parent_id());
-																										} ?>
+	<?php do_action('thwec_before_contents'); ?>
+	<?php if (!isset($order) && isset($gift_card->order_id)) {
+		$order = wc_get_order($gift_card->order_id);
+	} ?>
+	<?php if (isset($order) && is_a($order, 'WC_Order_Refund')) {
+		$order = wc_get_order($order->get_parent_id());
+	} ?>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>無限創意行銷</title>
 	<?php do_action('thwec_before_contents'); ?><?php if (!isset($order) && isset($gift_card->order_id)) {

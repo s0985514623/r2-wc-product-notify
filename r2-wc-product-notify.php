@@ -16,7 +16,7 @@
  * Plugin Name:       R2 WC Product Notify
  * Plugin URI:        http://example.com/plugin-name-uri/
  * Description:       為WC商品加入日期下單並在日期到來前做出Email提醒，或是在商品加入購物車時提醒.
- * Version: 1.0.5
+ * Version: 1.0.6
  * Author:            R2
  * License:           GPL-2.0+
  * Text Domain:       r2-wc-product-notify
@@ -29,6 +29,21 @@ define('R2_WC_Product_Notify_DIR', plugin_dir_path(__FILE__));
 if (!defined('WPINC')) {
 	die;
 }
-require_once plugin_dir_path(__FILE__) . '/inc/admin/wc-attributes.php';
-require_once plugin_dir_path(__FILE__) . '/inc/admin/wc-order.php';
-require_once plugin_dir_path(__FILE__) . '/inc/frontend/index.php';
+require_once R2_WC_Product_Notify_DIR . '/inc/admin/wc-attributes.php';
+require_once R2_WC_Product_Notify_DIR . '/inc/admin/wc-order.php';
+require_once R2_WC_Product_Notify_DIR . '/inc/frontend/index.php';
+require_once R2_WC_Product_Notify_DIR . '/inc/admin/order-date-cron.php';
+
+register_activation_hook(__FILE__, 'bl_activate');
+register_deactivation_hook(__FILE__, 'bl_deactivate');
+
+function bl_activate()
+{
+	// $init = new R2\WC_Product_Notify\Cron\R2_Cron_Init;
+	// R2\WC_Product_Notify\Cron\R2_Cron_Init::get_instance();
+}
+function bl_deactivate()
+{
+	$timestamp = wp_next_scheduled('bl_order_date_cron_Hook');
+	wp_unschedule_event($timestamp, 'bl_order_date_cron_Hook');
+}
