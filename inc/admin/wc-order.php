@@ -38,7 +38,7 @@ function send_custom_email_on_order_completed($order_id)
 					include R2_WC_Product_Notify_DIR . 'assets/templates/email/order-date-notify.php';
 					$content = ob_get_clean();
 					$mail = new R2_cron;
-					$mail->set_cron_schedule($email, 'testArg', $content);
+					$mail->set_cron_schedule($email, 'time:' + time(), $content);
 					remove_filter('wp_mail_content_type', $content_type);
 				}
 			}
