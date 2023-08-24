@@ -16,7 +16,6 @@ add_filter('product_attributes_type_selector', 'rudr_add_attr_type');
 
 function rudr_add_attr_type($types)
 {
-
 	// let's add a date here!
 	$types['Date_type'] = '日期'; // "date_type" // is just a custom slug
 	return $types;
@@ -30,7 +29,6 @@ function rudr_edit_fields($term, $taxonomy)
 
 	// do nothing if this term isn't the date type
 	global $wpdb;
-
 	$attribute_type = $wpdb->get_var(
 		$wpdb->prepare(
 			"
@@ -66,7 +64,6 @@ add_action('pa_date_add_form_fields', 'rudr_add_fields');
 function rudr_add_fields($taxonomy)
 {
 	global $wpdb;
-
 	$attribute_type = $wpdb->get_var(
 		$wpdb->prepare(
 			"
@@ -96,7 +93,7 @@ function rudr_add_fields($taxonomy)
 }
 
 
-//4.商品編輯頁面顯示屬性類型的值
+//3.商品編輯頁面顯示屬性類型的值
 add_action('woocommerce_product_option_terms', 'rudr_attr_select', 10, 3);
 function rudr_attr_select($attribute_taxonomy, $i, $attribute)
 {

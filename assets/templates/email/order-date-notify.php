@@ -48,8 +48,9 @@
 													</td>
 												</tr>
 											</table>
-											<?php if (isset($order)) { ?><div class='thwec-order-table-ref' style='border:none;padding:0;margin:0;'>
-													<?php do_action('woocommerce_email_order_details', $order, $sent_to_admin, $plain_text, $email); ?>
+											<?php if (isset($order)) { ?><div class='thwec-order-table-ref' style='border:none;padding:0;margin:0;'>465
+													<?php do_action('woocommerce_email_order_details', $order, $sent_to_admin, $plain_text, $email);
+													echo '123'; ?>
 												</div><?php } ?>
 										</td>
 									</tr>

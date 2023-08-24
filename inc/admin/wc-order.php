@@ -28,18 +28,17 @@ function send_custom_email_on_order_completed($order_id)
 			foreach ($variations as $attribute => $value) {
 				// $attribute 是屬性名稱，$value 是屬性值，取得pa_date的值
 				if ($attribute === 'attribute_pa_date') {
-					$date = $value;
+					$orderDate = $value;
+					add_action('woocommerce_email_order_details', function ($order, $sent_to_admin, $plain_text, $email) {
+						echo '<p>woocommerce_email_order_details</p>';
+					}, 5, 4);
 					//處理Mail template
-					$content_type = function () {
-						return 'text/html';
-					};
-					add_filter('wp_mail_content_type', $content_type);
 					ob_start();
 					include R2_WC_Product_Notify_DIR . 'assets/templates/email/order-date-notify.php';
 					$content = ob_get_clean();
+					// wp_mail($to, '【重要！課前通知】', $content);
 					$mail = new R2_cron;
-					$mail->set_cron_schedule($email, 'time:' + time(), $content);
-					remove_filter('wp_mail_content_type', $content_type);
+					$mail->set_cron_schedule($email, $orderDate, $content);
 				}
 			}
 		}
