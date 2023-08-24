@@ -1,7 +1,6 @@
 <?php
 // 創建後台菜單頁面
-namespace R2\WC_Product_Notify\BackstageSetting;
-
+// namespace R2\WC_Product_Notify\BackstageSetting;
 function r2_notify_menu_page()
 {
 	add_menu_page(

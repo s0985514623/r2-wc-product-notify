@@ -1,7 +1,7 @@
 <?php
 
 //Send email when order is completed
-namespace R2\WC_Product_Notify\OrderCompleteSendEmail;
+// namespace R2\WC_Product_Notify\OrderCompleteSendEmail;
 
 use R2\WC_Product_Notify\CronSetting\R2_cron;
 
