@@ -135,3 +135,40 @@ function rudr_attr_select($attribute_taxonomy, $i, $attribute)
 
 <?php
 }
+
+/*
+會需要有以下變數
+1.上課日期 v
+2.商品名稱 v
+3.時間與入場時間 x (全局or局部?)
+4.地點與教室 x (全局or局部?)
+5.表單填寫截止時間 x (全局or局部?)
+6. 是否禁止用餐（依照地點規定）x (全局or局部?)
+*/
+//可變商品變化類型加入自定義欄位
+add_action('woocommerce_product_after_variable_attributes', 'rudr_field', 10, 3);
+
+function rudr_field($loop, $variation_data, $variation)
+{
+
+	woocommerce_wp_text_input(
+		array(
+			'id'            => 'text_field[' . $loop . ']',
+			'label'         => '自定義欄位',
+			'wrapper_class' => 'form-row',
+			'placeholder'   => '在此輸入內容...',
+			'desc_tip'      => true,
+			'description'   => '可以加入一些自定義的欄位',
+			'value'         => get_post_meta($variation->ID, 'r2_notify_text', true)
+		)
+	);
+}
+
+//儲存自定義值
+add_action('woocommerce_save_product_variation', 'rudr_save_fields', 10, 2);
+function rudr_save_fields($variation_id, $loop)
+{
+	// Text Field
+	$text_field = !empty($_POST['text_field'][$loop]) ? $_POST['text_field'][$loop] : '';
+	update_post_meta($variation_id, 'r2_notify_text', sanitize_text_field($text_field));
+}

@@ -16,7 +16,7 @@
  * Plugin Name:       R2 WC Product Notify
  * Plugin URI:        http://example.com/plugin-name-uri/
  * Description:       為WC商品加入日期下單並在日期到來前做出Email提醒，或是在商品加入購物車時提醒.
- * Version: 1.0.9
+ * Version: 1.0.10
  * Author:            R2
  * License:           GPL-2.0+
  * Text Domain:       r2-wc-product-notify
@@ -32,8 +32,9 @@ if (!defined('WPINC')) {
 require_once R2_WC_Product_Notify_DIR . '/inc/admin/wc-attributes.php';
 require_once R2_WC_Product_Notify_DIR . '/inc/admin/wc-order.php';
 require_once R2_WC_Product_Notify_DIR . '/inc/admin/order-date-cron.php';
-require_once R2_WC_Product_Notify_DIR . '/inc/admin/menu-page.php';
+require_once R2_WC_Product_Notify_DIR . '/inc/admin/settingPage.php';
 require_once R2_WC_Product_Notify_DIR . '/inc/frontend/index.php';
+
 
 register_activation_hook(__FILE__, 'bl_activate');
 register_deactivation_hook(__FILE__, 'bl_deactivate');

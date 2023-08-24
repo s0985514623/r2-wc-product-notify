@@ -18,6 +18,8 @@ function send_custom_email_on_order_completed($order_id)
 		// 取得商品ID
 		$item = new WC_Order_Item_Product($item_id);
 		$variation_id = $item->get_variation_id();
+		//取得該訂單商品的original_post_title
+		$productName = wc_get_product($item->get_product_id())->get_name();
 		/**
 		 * @var WC_Product_Variation $variation =>改善vscode會提示 $variation is not defined錯誤
 		 */
@@ -28,17 +30,24 @@ function send_custom_email_on_order_completed($order_id)
 			foreach ($variations as $attribute => $value) {
 				// $attribute 是屬性名稱，$value 是屬性值，取得pa_date的值
 				if ($attribute === 'attribute_pa_date') {
+					//取得商品選擇日期
 					$orderDate = $value;
-					add_action('woocommerce_email_order_details', function ($order, $sent_to_admin, $plain_text, $email) {
-						echo '<p>woocommerce_email_order_details</p>';
-					}, 5, 4);
+
+					add_action('custom_hook_name', function ($obj, $email) {
+						foreach ($obj->get_items() as $item_id) {
+							// 取得商品ID
+							$item = new WC_Order_Item_Product($item_id);
+							$variation_id = $item->get_variation_id();
+							$customText = get_post_meta($variation_id, 'r2_notify_text', true);
+							echo '自定義欄位:' . $customText;
+						}
+					}, 5, 2);
 					//處理Mail template
 					ob_start();
 					include R2_WC_Product_Notify_DIR . 'assets/templates/email/order-date-notify.php';
 					$content = ob_get_clean();
-					// wp_mail($to, '【重要！課前通知】', $content);
 					$mail = new R2_cron;
-					$mail->set_cron_schedule($email, $orderDate, $content);
+					$mail->set_cron_schedule($email, $orderDate, $content, $productName);
 				}
 			}
 		}

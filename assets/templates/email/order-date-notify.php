@@ -7,29 +7,27 @@
 </head>
 
 <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
-	<?php do_action('thwec_before_contents'); ?>
-	<?php if (!isset($order) && isset($gift_card->order_id)) {
-		$order = wc_get_order($gift_card->order_id);
-	} ?>
-	<?php if (isset($order) && is_a($order, 'WC_Order_Refund')) {
-		$order = wc_get_order($order->get_parent_id());
-	} ?>
+	<?php do_action('thwec_before_contents'); ?><?php if (!isset($order) && isset($gift_card->order_id)) {
+																								$order = wc_get_order($gift_card->order_id);
+																							} ?><?php if (isset($order) && is_a($order, 'WC_Order_Refund')) {
+						$order = wc_get_order($order->get_parent_id());
+					} ?>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>無限創意行銷</title>
 	<?php do_action('thwec_before_contents'); ?><?php if (!isset($order) && isset($gift_card->order_id)) {
 																								$order = wc_get_order($gift_card->order_id);
 																							} ?><?php if (isset($order) && is_a($order, 'WC_Order_Refund')) {
-																										$order = wc_get_order($order->get_parent_id());
-																									} ?><table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="thwec_template_wrapper">
+						$order = wc_get_order($order->get_parent_id());
+					} ?><table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="thwec_template_wrapper">
 		<tr>
 			<td align="center" class="thwec-template-wrapper-column" valign="top" style="background-color: #f7f7f7; padding: 70px 0;" bgcolor="#f7f7f7">
 				<div id="thwec_template_container">
 					<table id="tp_temp_builder" width="600" cellspacing="0" cellpadding="0" class="main-builder thwec-template-block" style="max-width: 600px; width: 600px; margin: auto; box-sizing: border-box;" align="center">
 						<tr>
-							<td class="thwec-builder-column" style="vertical-align: top; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-style: none; border-color: transparent; background-color: #fff; background-image: none; background-position: center; background-size: 100%; background-repeat: no-repeat;" bgcolor="#fff">
+							<td class="thwec-builder-column" style="vertical-align: top; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-color: transparent; background-color: #fff; background-position: center; border-style: none; background-repeat: no-repeat; background-size: 100%; background-image: none;" bgcolor="#fff">
 								<table class="thwec-row thwec-block-one-column builder-block" id="tp_1001" cellpadding="0" cellspacing="0px" style="width: 100%; table-layout: fixed; max-width: 100%; margin: 0 auto; border-spacing: 0px; padding-top: 12px; padding-right: 10px; padding-bottom: 12px; padding-left: 10px; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-style: dotted; border-color: #ddd; background-image: none; background-color: transparent; background-position: center; background-size: 100%; background-repeat: no-repeat;" width="100%" align="center" bgcolor="transparent">
 									<tr>
-										<td class="column-padding thwec-col thwec-columns" id="tp_1002" style="box-sizing: border-box; word-break: break-word; padding: 10px 10px; width: 100%; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; text-align: center; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-style: dotted; border-color: #ddd; background-image: none; background-color: transparent; background-position: center; background-size: 100%; background-repeat: no-repeat; vertical-align: top;" width="100%" align="center" bgcolor="transparent">
+										<td class="column-padding thwec-col thwec-columns" id="tp_1002" style="box-sizing: border-box; word-break: break-word; padding: 10px 10px; width: 100%; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-style: dotted; border-color: #ddd; background-image: none; background-color: transparent; background-position: center; background-size: 100%; background-repeat: no-repeat; vertical-align: top; text-align: center;" width="100%" bgcolor="transparent" align="center">
 											<table class="thwec-block thwec-block-image builder-block" id="tp_1003" cellspacing="0" cellpadding="0" align="center" style="table-layout: fixed; width: 100%; height: auto; max-width: 600px; box-sizing: border-box; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; background-color: transparent;" width="100%" bgcolor="transparent">
 												<tr>
 													<td class="thwec-block-child thwec-image-column" style="padding: 0; vertical-align: top; box-sizing: border-box; text-align: center;" align="center">
@@ -48,10 +46,11 @@
 													</td>
 												</tr>
 											</table>
-											<?php if (isset($order)) { ?><div class='thwec-order-table-ref' style='border:none;padding:0;margin:0;'>465
-													<?php do_action('woocommerce_email_order_details', $order, $sent_to_admin, $plain_text, $email);
-													echo '123'; ?>
-												</div><?php } ?>
+											<?php $obj = isset($order) && is_a($order, "WC_Order") ? $order : null;
+											do_action('custom_hook_name', $obj, $email); ?><?php if (isset($order)) { ?>
+											<div class='thwec-order-table-ref' style='border:none;padding:0;margin:0;'>
+												<?php do_action('woocommerce_email_order_details', $order, $sent_to_admin, $plain_text, $email); ?>
+											</div><?php } ?>
 										</td>
 									</tr>
 								</table>

@@ -8,7 +8,7 @@ class R2_cron
 	public function init()
 	{
 		// add_filter('cron_schedules', array($this, 'r2_add_cron_interval'));
-		add_action('bl_order_date_cron_Hook', array($this, 'bl_order_date_cron_Exec'), 10, 2);
+		add_action('bl_order_date_cron_Hook', array($this, 'bl_order_date_cron_Exec'), 10, 4);
 	}
 
 
@@ -21,7 +21,7 @@ class R2_cron
 	// 	return $schedules;
 	// }
 
-	public function set_cron_schedule($to, $orderDate, $content)
+	public function set_cron_schedule($to, $orderDate, $content, $productName)
 	{
 		$clock = get_option('r2_notify_clock_before', 10);
 		$day_before = get_option('r2_notify_days_before', 1);
@@ -33,22 +33,26 @@ class R2_cron
 		$timestamp = $datetime->getTimestamp();
 
 		//寄給誰，什麼時候寄，內容
-		if (!wp_next_scheduled('bl_order_date_cron_Hook', array($to, $content))) {
-			wp_schedule_single_event($timestamp, 'bl_order_date_cron_Hook', array($to, $content));
+		if (!wp_next_scheduled('bl_order_date_cron_Hook', array($to, $content, $timestamp, $productName))) {
+			wp_schedule_single_event($timestamp, 'bl_order_date_cron_Hook', array($to, $content, $timestamp, $productName));
 			// wp_schedule_single_event(time(), 'bl_order_date_cron_Hook', array($to, $content));
 		}
 	}
 
 	public function bl_order_date_cron_Exec(
 		$to = "s0985514623@gmail.com",
-		$content = "test"
+		$content = "test",
+		$timestamp,
+		$productName
 	) {
+		$subject = '【重要！課前通知】' . wp_date('n/j(D)', $timestamp) . " " . $productName;
+
 		$content_type = function () {
 			return 'text/html';
 		};
 		add_filter('wp_mail_content_type', $content_type);
 
-		wp_mail($to, '【重要！課前通知】', $content);
+		wp_mail($to, $subject, $content);
 		remove_filter('wp_mail_content_type', $content_type);
 	}
 }
