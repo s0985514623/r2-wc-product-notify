@@ -1,26 +1,28 @@
 <?php
-// 创建后台菜单页面
+// 創建後台菜單頁面
+namespace R2\WC_Product_Notify\BackstageSetting;
+
 function r2_notify_menu_page()
 {
 	add_menu_page(
-		'課前提醒通知設定',       // 页面标题
-		'課前提醒通知設定',       // 菜单标题
-		'manage_options',       // 权限等级
-		'r2-wc-product-notify',       // 菜单的slug
-		'r2_notify_page_content' // 回调函数，用于输出页面内容
+		'課前提醒通知設定',       // 頁面標題
+		'課前提醒通知設定',       // 菜單標題
+		'manage_options',       // 權限等級
+		'r2-wc-product-notify',       // 菜單的slug
+		'r2_notify_page_content' // 回調函數，用於輸出頁面內容
 	);
 }
 add_action('admin_menu', 'r2_notify_menu_page');
 
-// 后台页面的内容
+// 頁面內容
 function r2_notify_page_content()
 {
-	// 如果用户点击了保存按钮，则更新选项
+	// 如果用戶點擊了保存按鈕，則更新選項
 	if (isset($_POST['r2_notify_save'])) {
-		$days_before = sanitize_text_field($_POST['r2_notify_days_before']); // 获取表单提交的值
-		update_option('r2_notify_days_before', $days_before); // 更新选项
-		$clock_before = sanitize_text_field($_POST['r2_notify_clock_before']); // 获取表单提交的值
-		update_option('r2_notify_clock_before', $clock_before); // 更新选项
+		$days_before = sanitize_text_field($_POST['r2_notify_days_before']); // 獲取表單提交的值
+		update_option('r2_notify_days_before', $days_before); // 更新選項
+		$clock_before = sanitize_text_field($_POST['r2_notify_clock_before']); // 獲取表單提交的值
+		update_option('r2_notify_clock_before', $clock_before); // 更新選項
 		echo '<div class="updated"><p>設置已保存。</p></div>';
 	}
 

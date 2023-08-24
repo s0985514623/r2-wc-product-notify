@@ -1,6 +1,10 @@
 <?php
 
 //Woo 自訂日期屬性
+
+namespace R2\WC_Product_Notify\AttributesSetting;
+
+
 add_action('admin_enqueue_scripts', 'enqueue_r2_wc_ajax');
 function enqueue_r2_wc_ajax()
 {
