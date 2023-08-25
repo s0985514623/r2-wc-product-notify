@@ -1,11 +1,11 @@
 <?php
 
 //Send email when order is completed
-// namespace R2\WC_Product_Notify\OrderCompleteSendEmail;
+namespace R2\WC_Product_Notify\OrderCompleteSendEmail;
 
 use R2\WC_Product_Notify\CronSetting\R2_cron;
 
-add_action('woocommerce_order_status_completed', 'send_custom_email_on_order_completed', 10, 1);
+\add_action('woocommerce_order_status_completed', __NAMESPACE__ . '\send_custom_email_on_order_completed', 10, 1);
 function send_custom_email_on_order_completed($order_id)
 {
 

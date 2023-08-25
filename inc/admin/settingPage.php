@@ -1,6 +1,8 @@
 <?php
 // 創建後台菜單頁面
-// namespace R2\WC_Product_Notify\BackstageSetting;
+namespace R2\WC_Product_Notify\BackstageSetting;
+
+\add_action('admin_menu',  __NAMESPACE__ . '\r2_notify_menu_page');
 function r2_notify_menu_page()
 {
 	add_menu_page(
@@ -8,10 +10,10 @@ function r2_notify_menu_page()
 		'課前提醒通知設定',       // 菜單標題
 		'manage_options',       // 權限等級
 		'r2-wc-product-notify',       // 菜單的slug
-		'r2_notify_page_content' // 回調函數，用於輸出頁面內容
+		__NAMESPACE__ . '\r2_notify_page_content' // 回調函數，用於輸出頁面內容
 	);
 }
-add_action('admin_menu', 'r2_notify_menu_page');
+
 
 // 頁面內容
 function r2_notify_page_content()

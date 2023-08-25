@@ -1,9 +1,9 @@
 <?php
 
 //Woo 自訂日期屬性
-// namespace R2\WC_Product_Notify\AttributesSetting;
+namespace R2\WC_Product_Notify\AttributesSetting;
 
-add_action('admin_enqueue_scripts', 'enqueue_r2_wc_ajax');
+\add_action('admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_r2_wc_ajax');
 function enqueue_r2_wc_ajax()
 {
 	// 添加自定义 JavaScript 文件，并自动加载 WordPress 默认的 jQuery 版本号
@@ -14,7 +14,7 @@ function enqueue_r2_wc_ajax()
 
 
 //1.添加屬性類型=>後台，使後台可以選擇屬性類型
-add_filter('product_attributes_type_selector', 'r2_add_attr_type');
+\add_filter('product_attributes_type_selector', __NAMESPACE__ . '\r2_add_attr_type');
 
 function r2_add_attr_type($types)
 {
@@ -23,10 +23,9 @@ function r2_add_attr_type($types)
 	return $types;
 }
 
-
 //2.將屬性選擇器jQuery添加到屬性編輯頁面
 //=>在編輯屬性頁面
-add_action('pa_date_edit_form_fields', 'r2_edit_fields', 10, 2);
+\add_action('pa_date_edit_form_fields', __NAMESPACE__ . '\r2_edit_fields', 10, 2);
 function r2_edit_fields($term, $taxonomy)
 {
 
@@ -63,7 +62,7 @@ function r2_edit_fields($term, $taxonomy)
 }
 
 //=>在新增屬性頁面
-add_action('pa_date_add_form_fields', 'r2_add_fields');
+\add_action('pa_date_add_form_fields', __NAMESPACE__ . '\r2_add_fields');
 function r2_add_fields($taxonomy)
 {
 	global $wpdb;
@@ -97,7 +96,7 @@ function r2_add_fields($taxonomy)
 
 
 //3.商品編輯頁面顯示屬性類型的值
-add_action('woocommerce_product_option_terms', 'r2_attr_select', 10, 3);
+\add_action('woocommerce_product_option_terms', __NAMESPACE__ . '\r2_attr_select', 10, 3);
 function r2_attr_select($attribute_taxonomy, $i, $attribute)
 {
 
@@ -133,7 +132,8 @@ function r2_attr_select($attribute_taxonomy, $i, $attribute)
 	<button class="button fr plus r2_add_new_attribute"><?php esc_html_e('Add new', 'woocommerce'); ?></button>
 	<!-- 隱藏的 div 作為 Dialog 的內容容器 -->
 	<div id="datepickerDialog" style="display: none;">
-		<input type="text" id="datepickerInput" value="">
+		<input type="text" id="datepickerInput" value="&nbsp">
+		<!--input value值使儲存的欄位不為空，以解決無法儲存問題 -->
 	</div>
 
 <?php
@@ -149,7 +149,7 @@ function r2_attr_select($attribute_taxonomy, $i, $attribute)
 6. 是否禁止用餐（依照地點規定）x (全局or局部?)
 */
 //可變商品變化類型加入自定義欄位
-add_action('woocommerce_product_after_variable_attributes', 'r2_field', 10, 3);
+\add_action('woocommerce_product_after_variable_attributes', __NAMESPACE__ . '\r2_field', 10, 3);
 
 function r2_field($loop, $variation_data, $variation)
 {
@@ -179,7 +179,7 @@ function r2_field($loop, $variation_data, $variation)
 }
 
 //儲存自定義值
-add_action('woocommerce_save_product_variation', 'r2_save_fields', 10, 2);
+\add_action('woocommerce_save_product_variation', __NAMESPACE__ . '\r2_save_fields', 10, 2);
 function r2_save_fields($variation_id, $loop)
 {
 	// Text Field
