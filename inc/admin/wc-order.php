@@ -36,8 +36,12 @@ function send_custom_email_on_order_completed($order_id)
 							// 取得商品ID
 							$item = new \WC_Order_Item_Product($item_id);
 							$variation_id = $item->get_variation_id();
-							$customText = get_post_meta($variation_id, 'r2_notify_text', true);
-							echo '自定義欄位:' . $customText;
+							$course_time = get_post_meta($variation_id, 'r2_course_time', true);
+							$course_location = get_post_meta($variation_id, 'r2_course_location', true);
+							echo '<div style="width:100%;display:flex;padding:15px;flex-direction: column;">';
+							echo '<span style="font-size:13px; text-align:left">＊時間：' . $course_time . '</span>';
+							echo '<span style="font-size:13px; text-align:left">＊地點：' . $course_location . '</span>';
+							echo '</div>';
 						}
 					}, 5, 2);
 					//處理Mail template

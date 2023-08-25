@@ -14,19 +14,20 @@ function enqueue_r2_wc_ajax()
 
 
 //1.添加屬性類型=>後台，使後台可以選擇屬性類型
-add_filter('product_attributes_type_selector', 'rudr_add_attr_type');
+add_filter('product_attributes_type_selector', 'r2_add_attr_type');
 
-function rudr_add_attr_type($types)
+function r2_add_attr_type($types)
 {
 	// let's add a date here!
 	$types['Date_type'] = '日期'; // "date_type" // is just a custom slug
 	return $types;
 }
 
+
 //2.將屬性選擇器jQuery添加到屬性編輯頁面
 //=>在編輯屬性頁面
-add_action('pa_date_edit_form_fields', 'rudr_edit_fields', 10, 2);
-function rudr_edit_fields($term, $taxonomy)
+add_action('pa_date_edit_form_fields', 'r2_edit_fields', 10, 2);
+function r2_edit_fields($term, $taxonomy)
 {
 
 	// do nothing if this term isn't the date type
@@ -62,8 +63,8 @@ function rudr_edit_fields($term, $taxonomy)
 }
 
 //=>在新增屬性頁面
-add_action('pa_date_add_form_fields', 'rudr_add_fields');
-function rudr_add_fields($taxonomy)
+add_action('pa_date_add_form_fields', 'r2_add_fields');
+function r2_add_fields($taxonomy)
 {
 	global $wpdb;
 	$attribute_type = $wpdb->get_var(
@@ -96,8 +97,8 @@ function rudr_add_fields($taxonomy)
 
 
 //3.商品編輯頁面顯示屬性類型的值
-add_action('woocommerce_product_option_terms', 'rudr_attr_select', 10, 3);
-function rudr_attr_select($attribute_taxonomy, $i, $attribute)
+add_action('woocommerce_product_option_terms', 'r2_attr_select', 10, 3);
+function r2_attr_select($attribute_taxonomy, $i, $attribute)
 {
 
 	// do nothing if it is not our custom attribute type
@@ -148,29 +149,44 @@ function rudr_attr_select($attribute_taxonomy, $i, $attribute)
 6. 是否禁止用餐（依照地點規定）x (全局or局部?)
 */
 //可變商品變化類型加入自定義欄位
-add_action('woocommerce_product_after_variable_attributes', 'rudr_field', 10, 3);
+add_action('woocommerce_product_after_variable_attributes', 'r2_field', 10, 3);
 
-function rudr_field($loop, $variation_data, $variation)
+function r2_field($loop, $variation_data, $variation)
 {
 
 	woocommerce_wp_text_input(
 		array(
 			'id'            => 'text_field[' . $loop . ']',
-			'label'         => '自定義欄位',
+			'label'         => '時間',
 			'wrapper_class' => 'form-row',
-			'placeholder'   => '在此輸入內容...',
+			'placeholder'   => '在此輸入上課時間',
 			'desc_tip'      => true,
-			'description'   => '可以加入一些自定義的欄位',
-			'value'         => get_post_meta($variation->ID, 'r2_notify_text', true)
+			'description'   => '在此輸入上課時間',
+			'value'         => get_post_meta($variation->ID, 'r2_course_time', true)
+		)
+	);
+	woocommerce_wp_text_input(
+		array(
+			'id'            => 'text_field_location[' . $loop . ']',
+			'label'         => '地點',
+			'wrapper_class' => 'form-row',
+			'placeholder'   => '在此輸入上課地點',
+			'desc_tip'      => true,
+			'description'   => '在此輸入上課地點',
+			'value'         => get_post_meta($variation->ID, 'r2_course_location', true)
 		)
 	);
 }
 
 //儲存自定義值
-add_action('woocommerce_save_product_variation', 'rudr_save_fields', 10, 2);
-function rudr_save_fields($variation_id, $loop)
+add_action('woocommerce_save_product_variation', 'r2_save_fields', 10, 2);
+function r2_save_fields($variation_id, $loop)
 {
 	// Text Field
 	$text_field = !empty($_POST['text_field'][$loop]) ? $_POST['text_field'][$loop] : '';
-	update_post_meta($variation_id, 'r2_notify_text', sanitize_text_field($text_field));
+	update_post_meta($variation_id, 'r2_course_time', sanitize_text_field($text_field));
+
+	// location Field
+	$text_field = !empty($_POST['text_field_location'][$loop]) ? $_POST['text_field_location'][$loop] : '';
+	update_post_meta($variation_id, 'r2_course_location', sanitize_text_field($text_field));
 }

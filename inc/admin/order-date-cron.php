@@ -9,12 +9,12 @@ class R2_cron
 	public static function init()
 	{
 		self::$instance = new self();
-		add_action('bl_order_date_cron_Hook', array(self::$instance, 'bl_order_date_cron_Exec'), 10, 4);
+		add_action('r2order_date_cron_Hook', array(self::$instance, 'r2order_date_cron_Exec'), 10, 4);
 	}
 	// public static function init()
 	// {
 	// 	// add_filter('cron_schedules', array($this, 'r2_add_cron_interval'));
-	// 	add_action('bl_order_date_cron_Hook', array($this, 'bl_order_date_cron_Exec'), 10, 4);
+	// 	add_action('r2order_date_cron_Hook', array($this, 'r2order_date_cron_Exec'), 10, 4);
 	// }
 
 
@@ -30,12 +30,12 @@ class R2_cron
 		$dateTime = new \DateTime($date, wp_timezone());
 		$timestamp = $dateTime->getTimestamp();
 		//什麼時候寄，寄給誰，內容，開課日期，商品名稱
-		if (!wp_next_scheduled('bl_order_date_cron_Hook', array($to, $content, $orderDateTimestamp, $productName))) {
-			wp_schedule_single_event($timestamp, 'bl_order_date_cron_Hook', array($to, $content, $orderDateTimestamp, $productName));
+		if (!wp_next_scheduled('r2order_date_cron_Hook', array($to, $content, $orderDateTimestamp, $productName))) {
+			wp_schedule_single_event($timestamp, 'r2order_date_cron_Hook', array($to, $content, $orderDateTimestamp, $productName));
 		}
 	}
 
-	public function bl_order_date_cron_Exec(
+	public function r2order_date_cron_Exec(
 		$to = "s0985514623@gmail.com",
 		$content = "開課通知",
 		$orderDateTimestamp,
