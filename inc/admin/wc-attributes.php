@@ -148,6 +148,139 @@ function r2_attr_select($attribute_taxonomy, $i, $attribute)
 5.表單填寫截止時間 x (全局or局部?)
 6. 是否禁止用餐（依照地點規定）x (全局or局部?)
 */
+// \add_action('woocommerce_product_options_general_product_data', __NAMESPACE__ . '\misha_option_group');
+
+// function misha_option_group()
+// {
+// 	echo '<div class="option_group">test</div>';
+// }
+//加入提醒資訊頁籤
+\add_filter('woocommerce_product_data_tabs', __NAMESPACE__ . '\r2_product_settings_tabs');
+function r2_product_settings_tabs($tabs)
+{
+
+	//unset( $tabs[ 'inventory' ] );
+
+	$tabs['r2_notify'] = array(
+		'label'    => '提醒資訊',
+		'target'   => 'r2_notify_data',
+		'class'    => array('show_if_simple', 'show_if_variable'),
+		'priority' => 60,
+	);
+	return $tabs;
+}
+
+//提醒資訊內容(商品通用內容及信件範本)
+\add_action('woocommerce_product_data_panels', __NAMESPACE__ . '\r2_product_panels');
+function r2_product_panels()
+{
+?>
+	<div id="r2_notify_data" class="panel woocommerce_options_panel hidden">
+		<!-- 是否啟用 -->
+		<?=
+		woocommerce_wp_checkbox(
+			array(
+				'id'            => 'is_enable',
+				'value'         => get_post_meta(get_the_ID(), 'is_enable', true),
+				'label'         => '是否啟用信件通知功能',
+				'description'   => '勾選後，請按下更新或發布鍵',
+				'required'  => true
+
+			)
+		); ?>
+		<?php if (get_post_meta(get_the_ID(), 'is_enable', true) !== 'yes') {
+			return; // 未勾選就不顯示下面的欄位
+		} ?>
+		<!-- 信件模板 -->
+		<?=
+		woocommerce_wp_select(
+			array(
+				'id'            => 'Email_template',
+				'value'         => get_post_meta(get_the_ID(), 'Email_template', true),
+				'label'         => '信件模板',
+				'options'       => array(
+					'' => '請選擇信件模板',
+					'ad_template' => '廣告投放課(線上+線下+直播)',
+					'phone_template' => '手機短影音(線上+線下)',
+					'offline_template' => '其他實體課(線下)',
+					'online_template' => '網紅線上課(線上)',
+				),
+			)
+		); ?>
+		<!--線上課程標題 -->
+		<?= woocommerce_wp_text_input(
+			array(
+				'id'          => 'online_title',
+				'value'       => get_post_meta(get_the_ID(), 'online_title', true),
+				'label'       => '線上課程標題',
+				'description' => '輸入【上課資訊－線上課程】or【上課資訊－預錄補充教材】等完整標題。如果無線上課程，請留空'
+			)
+		);
+		?>
+		<!-- 線上課程內容 -->
+		<div class="r2_notify_wrap"><span>線上課程內容</span>
+			<?= wp_editor(get_post_meta(get_the_ID(), 'online_content', true), 'online_content'); ?>
+		</div>
+		<hr>
+		<!-- 線下課程標題 -->
+		<?= woocommerce_wp_text_input(
+			array(
+				'id'          => 'offline_title',
+				'value'       => get_post_meta(get_the_ID(), 'offline_title', true),
+				'label'       => '線下課程標題',
+				'description' => '輸入【上課資訊－實體課程】等完整標題。如果無線下課程，請留空'
+			)
+		); ?>
+		<!-- 線下課程內容 -->
+		<div class="r2_notify_wrap"><span>線下課程內容</span>
+			<?= wp_editor(get_post_meta(get_the_ID(), 'offline_content', true), 'offline_content'); ?>
+		</div>
+		<hr>
+		<?= woocommerce_wp_text_input(
+			array(
+				'id'          => 'live_time_title',
+				'value'       => get_post_meta(get_the_ID(), 'live_time_title', true),
+				'label'       => '直播內容與時間標題',
+				'description' => '輸入【課前與課後直播時間】等完整標題。如果無線上課程，請留空'
+			)
+		);
+		?>
+		<!-- 直播內容與時間 -->
+		<div class="r2_notify_wrap"><span>直播內容與時間內容</span>
+			<?= wp_editor(get_post_meta(get_the_ID(), 'live_time', true), 'live_time'); ?>
+		</div>
+	</div>
+	<style>
+		#r2_notify_data>div.r2_notify_wrap {
+			padding: 0 13px;
+			margin-bottom: 20px
+		}
+
+		#r2_notify_data>div.r2_notify_wrap>span {
+			font-size: 12px;
+			margin-bottom: 10px;
+			display: inline-block;
+		}
+	</style>
+<?php
+}
+
+
+\add_action('woocommerce_process_product_meta', __NAMESPACE__ . '\r2_save_fields_product_meta');
+function r2_save_fields_product_meta($id)
+{
+	update_post_meta($id, 'is_enable', sanitize_text_field($_POST['is_enable']));
+
+	isset($_POST['Email_template']) && update_post_meta($id, 'Email_template', $_POST['Email_template']);
+	isset($_POST['online_title']) && update_post_meta($id, 'online_title', sanitize_text_field($_POST['online_title']));
+	isset($_POST['online_content']) && update_post_meta($id, 'online_content', sanitize_text_field($_POST['online_content']));
+	isset($_POST['offline_title']) && update_post_meta($id, 'offline_title', sanitize_textarea_field($_POST['offline_title']));
+	isset($_POST['offline_content']) && update_post_meta($id, 'offline_content', sanitize_textarea_field($_POST['offline_content']));
+	isset($_POST['live_time_title']) && update_post_meta($id, 'live_time_title', sanitize_textarea_field($_POST['live_time_title']));
+	isset($_POST['live_time']) && update_post_meta($id, 'live_time', sanitize_textarea_field($_POST['live_time']));
+}
+
+
 //可變商品變化類型加入自定義欄位
 \add_action('woocommerce_product_after_variable_attributes', __NAMESPACE__ . '\r2_field', 10, 3);
 
@@ -167,7 +300,7 @@ function r2_field($loop, $variation_data, $variation)
 	);
 	woocommerce_wp_text_input(
 		array(
-			'id'            => 'text_field_location[' . $loop . ']',
+			'id'            => 'text_field_location[' . $loop . ']', //id要不一樣
 			'label'         => '地點',
 			'wrapper_class' => 'form-row',
 			'placeholder'   => '在此輸入上課地點',
@@ -179,8 +312,8 @@ function r2_field($loop, $variation_data, $variation)
 }
 
 //儲存自定義值
-\add_action('woocommerce_save_product_variation', __NAMESPACE__ . '\r2_save_fields', 10, 2);
-function r2_save_fields($variation_id, $loop)
+\add_action('woocommerce_save_product_variation', __NAMESPACE__ . '\r2_save_fields_variation', 10, 2);
+function r2_save_fields_variation($variation_id, $loop)
 {
 	// Text Field
 	$text_field = !empty($_POST['text_field'][$loop]) ? $_POST['text_field'][$loop] : '';
