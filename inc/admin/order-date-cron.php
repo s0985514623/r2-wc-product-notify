@@ -43,11 +43,8 @@ class R2_cron
 	) {
 		$subject = '【重要！課前通知】' . wp_date('n/j(D)', $orderDateTimestamp) . " " . $productName;
 
-		$content_type = function () {
-			return 'text/html';
-		};
-		add_filter('wp_mail_content_type', $content_type);
-		wp_mail($to, $subject, $content);
-		remove_filter('wp_mail_content_type', $content_type);
+		$headers = array('Content-Type: text/html; charset=UTF-8');
+
+		wp_mail($to, $subject, $content, $headers);
 	}
 }
