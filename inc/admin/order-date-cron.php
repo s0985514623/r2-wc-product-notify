@@ -4,13 +4,16 @@ namespace R2\WC_Product_Notify\CronSetting;
 
 class R2_cron
 {
-
-	protected static $instance;
-	public static function init()
+	public function __construct()
 	{
-		self::$instance = new self();
-		add_action('r2order_date_cron_Hook', array(self::$instance, 'r2order_date_cron_Exec'), 10, 4);
+		add_action('r2order_date_cron_Hook', array($this, 'r2order_date_cron_Exec'), 10, 4);
 	}
+	// protected static $instance;
+	// public static function init()
+	// {
+	// 	self::$instance = new self();
+	// 	add_action('r2order_date_cron_Hook', array(self::$instance, 'r2order_date_cron_Exec'), 10, 4);
+	// }
 	// public static function init()
 	// {
 	// 	// add_filter('cron_schedules', array($this, 'r2_add_cron_interval'));
