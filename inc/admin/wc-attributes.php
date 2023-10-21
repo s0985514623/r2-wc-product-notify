@@ -47,16 +47,16 @@ function r2_edit_fields($term, $taxonomy)
 		return;
 	}
 ?>
-<script>
-(function($) {
-	$(function() {
-		const tagName = $('#tag-name')
-		tagName.datepicker({
-			dateFormat: "yy/mm/dd"
-		});
-	})
-})(jQuery)
-</script>
+	<script>
+		(function($) {
+			$(function() {
+				const tagName = $('#tag-name')
+				tagName.datepicker({
+					dateFormat: "yy/mm/dd"
+				});
+			})
+		})(jQuery)
+	</script>
 <?php
 
 }
@@ -81,16 +81,16 @@ function r2_add_fields($taxonomy)
 		return;
 	}
 ?>
-<script>
-(function($) {
-	$(function() {
-		const tagName = $('#tag-name')
-		tagName.datepicker({
-			dateFormat: "yy/mm/dd"
-		});
-	})
-})(jQuery)
-</script>
+	<script>
+		(function($) {
+			$(function() {
+				const tagName = $('#tag-name')
+				tagName.datepicker({
+					dateFormat: "yy/mm/dd"
+				});
+			})
+		})(jQuery)
+	</script>
 <?php
 }
 
@@ -110,12 +110,8 @@ function r2_attr_select($attribute_taxonomy, $i, $attribute)
 	$options = !empty($options) ? $options : array();
 	$attribute_orderby = !empty($attribute_taxonomy->attribute_orderby) ? $attribute_taxonomy->attribute_orderby : 'name';
 ?>
-<select multiple="multiple" data-minimum_input_length="0" data-limit="50" data-return_id="id"
-	data-placeholder="請選擇日期" data-orderby="<?php echo esc_attr($attribute_orderby); ?>"
-	class="multiselect attribute_values wc-taxonomy-term-search r2-product-date"
-	name="attribute_values[<?php echo esc_attr($i); ?>][]"
-	data-taxonomy="<?php echo esc_attr($attribute->get_taxonomy()); ?>">
-	<?php
+	<select multiple="multiple" data-minimum_input_length="0" data-limit="50" data-return_id="id" data-placeholder="請選擇日期" data-orderby="<?php echo esc_attr($attribute_orderby); ?>" class="multiselect attribute_values wc-taxonomy-term-search r2-product-date" name="attribute_values[<?php echo esc_attr($i); ?>][]" data-taxonomy="<?php echo esc_attr($attribute->get_taxonomy()); ?>">
+		<?php
 		$selected_terms = $attribute->get_terms('pa_date', array('hide_empty' => 0));
 		if ($selected_terms) {
 			foreach ($selected_terms as $selected_term) {
@@ -130,18 +126,15 @@ function r2_attr_select($attribute_taxonomy, $i, $attribute)
 			}
 		}
 		?>
-</select>
-<button
-	class="button plus select_all_attributes"><?php esc_html_e('Select all', 'woocommerce'); ?></button>
-<button
-	class="button minus select_no_attributes"><?php esc_html_e('Select none', 'woocommerce'); ?></button>
-<button
-	class="button fr plus r2_add_new_attribute"><?php esc_html_e('Add new', 'woocommerce'); ?></button>
-<!-- 隱藏的 div 作為 Dialog 的內容容器 -->
-<div id="datepickerDialog" style="display: none;">
-	<input type="text" id="datepickerInput" value="&nbsp">
-	<!--input value值使儲存的欄位不為空，以解決無法儲存問題 -->
-</div>
+	</select>
+	<button class="button plus select_all_attributes"><?php esc_html_e('Select all', 'woocommerce'); ?></button>
+	<button class="button minus select_no_attributes"><?php esc_html_e('Select none', 'woocommerce'); ?></button>
+	<button class="button fr plus r2_add_new_attribute"><?php esc_html_e('Add new', 'woocommerce'); ?></button>
+	<!-- 隱藏的 div 作為 Dialog 的內容容器 -->
+	<div id="datepickerDialog" style="display: none;">
+		<input type="text" id="datepickerInput" value="&nbsp">
+		<!--input value值使儲存的欄位不為空，以解決無法儲存問題 -->
+	</div>
 
 <?php
 }
@@ -182,9 +175,9 @@ function r2_product_settings_tabs($tabs)
 function r2_product_panels()
 {
 ?>
-<div id="r2_notify_data" class="panel woocommerce_options_panel hidden">
-	<!-- 是否啟用 -->
-	<?php
+	<div id="r2_notify_data" class="panel woocommerce_options_panel hidden">
+		<!-- 是否啟用 -->
+		<?php
 		woocommerce_wp_checkbox(
 			array(
 				'id'            => 'r2_is_enable',
@@ -196,11 +189,12 @@ function r2_product_panels()
 			)
 		);
 		if (get_post_meta(get_the_ID(), 'r2_is_enable', true) !== 'yes') {
+			echo '</div>';
 			return; // 未勾選就不顯示下面的欄位
 		}
 		?>
-	<!-- 信件模板 -->
-	<?php
+		<!-- 信件模板 -->
+		<?php
 		woocommerce_wp_select(
 			array(
 				'id'            => 'r2_email_template',
@@ -214,8 +208,8 @@ function r2_product_panels()
 				),
 			)
 		); ?>
-	<!--線上課程標題 -->
-	<?php woocommerce_wp_text_input(
+		<!--線上課程標題 -->
+		<?php woocommerce_wp_text_input(
 			array(
 				'id'          => 'r2_online_title',
 				'value'       => get_post_meta(get_the_ID(), 'r2_online_title', true),
@@ -224,40 +218,42 @@ function r2_product_panels()
 			)
 		);
 		?>
-	<!-- 線上課程內容 -->
-	<div class="r2_notify_wrap"><span>線上課程內容</span>
-		<?= wp_editor(get_post_meta(get_the_ID(), 'r2_online_content', true), 'r2_online_content'); ?>
-	</div>
-	<hr>
+		<!-- 線上課程內容 -->
+		<div class="r2_notify_wrap"><span>線上課程內容</span>
+			<?= wp_editor(get_post_meta(get_the_ID(), 'r2_online_content', true), 'r2_online_content'); ?>
+		</div>
+		<hr>
 
-	<!-- 直播內容標題 -->
-	<?= woocommerce_wp_text_input(
-			array(
-				'id'          => 'r2_live_time_title',
-				'value'       => get_post_meta(get_the_ID(), 'r2_live_time_title', true),
-				'label'       => '直播內容標題',
-				'description' => '輸入【課前與課後直播時間】等完整標題。如果無直播課程，請留空'
-			)
-		);
+		<!-- 直播內容標題 -->
+		<?php
+		// woocommerce_wp_text_input(
+		// 	array(
+		// 		'id'          => 'r2_live_time_title',
+		// 		'value'       => get_post_meta(get_the_ID(), 'r2_live_time_title', true),
+		// 		'label'       => '直播內容標題',
+		// 		'description' => '輸入【課前與課後直播時間】等完整標題。如果無直播課程，請留空'
+		// 	)
+		// );
 		?>
-	<!-- 直播內容與時間 -->
-	<div class="r2_notify_wrap"><span>直播內容與時間內容</span>
-		<?php wp_editor(get_post_meta(get_the_ID(), 'r2_live_time', true), 'r2_live_time'); ?>
+		<!-- 直播內容與時間 -->
+		<!-- <div class="r2_notify_wrap"><span>直播內容與時間內容</span>
+			<?php //wp_editor(get_post_meta(get_the_ID(), 'r2_live_time', true), 'r2_live_time');
+			?>
+		</div> -->
+
 	</div>
+	<style>
+		#r2_notify_data>div.r2_notify_wrap {
+			padding: 0 13px;
+			margin-bottom: 20px
+		}
 
-</div>
-<style>
-#r2_notify_data>div.r2_notify_wrap {
-	padding: 0 13px;
-	margin-bottom: 20px
-}
-
-#r2_notify_data>div.r2_notify_wrap>span {
-	font-size: 12px;
-	margin-bottom: 10px;
-	display: inline-block;
-}
-</style>
+		#r2_notify_data>div.r2_notify_wrap>span {
+			font-size: 12px;
+			margin-bottom: 10px;
+			display: inline-block;
+		}
+	</style>
 <?php
 }
 
@@ -341,7 +337,10 @@ function r2_field($loop, $variation_data, $variation)
 	);
 	//無法在ajax後初始化TinyMCE編輯器
 	// $settings = array('textarea_name' => 'r2_course_note');
-	// wp_editor(get_post_meta(get_the_ID(), 'r2_course_note2', true), 'r2_course_note' . $loop . '');
+	// wp_editor(get_post_meta($variation->ID, 'r2_course_note2', true), 'r2_course_note2' . $loop . '');
+?>
+
+<?php
 }
 //儲存自定義值
 \add_action('woocommerce_save_product_variation', __NAMESPACE__ . '\r2_save_fields_variation', 10, 2);
@@ -366,4 +365,7 @@ function r2_save_fields_variation($variation_id, $loop)
 	//Course Note Field
 	$text_field_course_note = !empty($_POST['r2_course_note'][$loop]) ? $_POST['r2_course_note'][$loop] : '';
 	update_post_meta($variation_id, 'r2_course_note', $text_field_course_note);
+	// //Course Note2 Field
+	// $text_field_course_note2 = !empty($_POST['r2_course_note2' . $loop]) ? $_POST['r2_course_note2' . $loop] : '';
+	// update_post_meta($variation_id, 'r2_course_note2', $text_field_course_note2);
 }
