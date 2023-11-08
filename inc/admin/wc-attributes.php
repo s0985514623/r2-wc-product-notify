@@ -226,20 +226,20 @@ function r2_product_panels()
 
 		<!-- 直播內容標題 -->
 		<?php
-		// woocommerce_wp_text_input(
-		// 	array(
-		// 		'id'          => 'r2_live_time_title',
-		// 		'value'       => get_post_meta(get_the_ID(), 'r2_live_time_title', true),
-		// 		'label'       => '直播內容標題',
-		// 		'description' => '輸入【課前與課後直播時間】等完整標題。如果無直播課程，請留空'
-		// 	)
-		// );
+		woocommerce_wp_text_input(
+			array(
+				'id'          => 'r2_live_time_title',
+				'value'       => get_post_meta(get_the_ID(), 'r2_live_time_title', true),
+				'label'       => '直播內容標題',
+				'description' => '輸入【課前與課後直播時間】等完整標題。如果無直播課程，請留空'
+			)
+		);
 		?>
 		<!-- 直播內容與時間 -->
-		<!-- <div class="r2_notify_wrap"><span>直播內容與時間內容</span>
-			<?php //wp_editor(get_post_meta(get_the_ID(), 'r2_live_time', true), 'r2_live_time');
+		<div class="r2_notify_wrap"><span>直播內容與時間內容</span>
+			<?php wp_editor(get_post_meta(get_the_ID(), 'r2_live_time', true), 'r2_live_time');
 			?>
-		</div> -->
+		</div>
 
 	</div>
 	<style>
