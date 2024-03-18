@@ -1,8 +1,8 @@
 .pageWrap .pageSection {
-  margin: 10px 0;
-  display: flex;
-  justify-content: start;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
+	margin: 10px 0;
+	display: flex;
+	justify-content: start;
+	flex-direction: row;
+	align-items: center;
+	gap: 10px;
 }

@@ -7,18 +7,31 @@
 </head>
 
 <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
-	<?php do_action('thwec_before_contents'); ?><?php if (!isset($order) && isset($gift_card->order_id)) {
-																								$order = wc_get_order($gift_card->order_id);
-																							} ?><?php if (isset($order) && is_a($order, 'WC_Order_Refund')) {
-						$order = wc_get_order($order->get_parent_id());
-					} ?>
+	<?php do_action( 'thwec_before_contents' ); ?>
+					<?php
+					if ( ! isset( $order ) && isset( $gift_card->order_id ) ) {
+																							$order = wc_get_order( $gift_card->order_id );
+					}
+					?>
+																							<?php
+																							if ( isset( $order ) && is_a( $order, 'WC_Order_Refund' ) ) {
+																								$order = wc_get_order( $order->get_parent_id() );
+																							}
+																							?>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>無限創意行銷</title>
-	<?php do_action('thwec_before_contents'); ?><?php if (!isset($order) && isset($gift_card->order_id)) {
-																								$order = wc_get_order($gift_card->order_id);
-																							} ?><?php if (isset($order) && is_a($order, 'WC_Order_Refund')) {
-						$order = wc_get_order($order->get_parent_id());
-					} ?><table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="thwec_template_wrapper">
+	<?php do_action( 'thwec_before_contents' ); ?>
+					<?php
+					if ( ! isset( $order ) && isset( $gift_card->order_id ) ) {
+																							$order = wc_get_order( $gift_card->order_id );
+					}
+					?>
+																							<?php
+																							if ( isset( $order ) && is_a( $order, 'WC_Order_Refund' ) ) {
+																								$order = wc_get_order( $order->get_parent_id() );
+																							}
+																							?>
+					<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="thwec_template_wrapper">
 		<tr>
 			<td align="center" class="thwec-template-wrapper-column" valign="top" style="background-color: #f7f7f7; padding: 70px 0;" bgcolor="#f7f7f7">
 				<div id="thwec_template_container">
@@ -47,8 +60,10 @@
 								<table class="thwec-row thwec-block-one-column builder-block" id="tp_1074" cellpadding="0" cellspacing="0px" style="border-spacing: 0px; width: 100%; table-layout: fixed; max-width: 100%; margin: 0 auto; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; background-size: 100%; background-repeat: no-repeat; background-position: center; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-style: dotted; border-color: #ddd; padding-top: 12px; padding-right: 10px; padding-bottom: 12px; padding-left: 10px;" width="100%" align="center">
 									<tr>
 										<td class="column-padding thwec-col thwec-columns" id="tp_1075" style="vertical-align: top; box-sizing: border-box; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-style: dotted; border-color: #ddd; word-break: break-word; padding: 10px 10px; text-align: center; background-position: center; background-repeat: no-repeat; background-size: 100%;" align="center">
-											<?php $obj = isset($order) && is_a($order, "WC_Order") ? $order : null;
-											do_action('custom_hook_name', $obj, $email); ?>
+											<?php
+											$obj = isset( $order ) && is_a( $order, 'WC_Order' ) ? $order : null;
+											do_action( 'custom_hook_name', $obj, $email );
+											?>
 										</td>
 									</tr>
 								</table>
