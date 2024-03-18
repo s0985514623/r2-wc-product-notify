@@ -24,7 +24,7 @@
 
 
 ## 課前提醒郵件範例
-<img src="https://github.com/s0985514623/r2-wc-product-notify/assets/35906564/e3acad3c-bcbe-464d-9675-c845fb8ce241">
+<img src="https://github.com/s0985514623/r2-wc-product-notify/assets/35906564/e3acad3c-bcbe-464d-9675-c845fb8ce241"><br>
 可以提前多少天以及在什麼幾點進行發送，比如一門課有 8/25 號 8/29 號兩個時段，客戶下單了 29 號這個時段的課程商品，後台設定了提前 2 天並且在 10 點進行發送，那麼客戶就會在 8/27 的早上 10 點收到通知信
 
 ## 電子郵件模板來源：Email Customizer for WooCommerce (Pro)套件
