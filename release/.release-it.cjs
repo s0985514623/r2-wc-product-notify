@@ -26,7 +26,7 @@ module.exports = {
   hooks: {
     // 'before:init': [], // run before initialization
     // 'after:[my-plugin]:bump': './bin/my-script.sh', // run after bumping version of my-plugin
-    "after:bump": ["yarn build && echo ✅ build success && yarn sync:version && echo ✅ sync version success", "yarn create:release && echo ✅ create release files success", `cd release/${releasedPluginName}/${releasedPluginName} && composer install --no-dev && cd ../.. && echo ✅ composer install success`, "yarn zip && echo ✅ create zip success"], // run after bumping version
+    "after:bump": ["yarn sync:version && echo ✅ sync version success", "yarn create:release && echo ✅ create release files success", `cd release/${releasedPluginName}/${releasedPluginName} && composer install --no-dev && cd ../.. && echo ✅ composer install success`, "yarn zip && echo ✅ create zip success"], // run after bumping version
     // 'after:git:release': 'echo After git push, before github release', // run after git push, before github release
     "after:release": ["git pull"], // run after release
   },
