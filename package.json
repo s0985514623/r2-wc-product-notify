@@ -21,9 +21,6 @@
     "create:release": "env-cmd -f ./.env node ./release/create-release.cjs",
     "sync:version": "wp-update-project-version -s package.json -p r2-wc-product-notify.php"
   },
-  "pre-commit": [
-    "lint:fix"
-  ],
   "dependencies": {
     "jquery": "^3.7.1"
   },
