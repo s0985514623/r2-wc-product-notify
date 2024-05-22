@@ -3,7 +3,7 @@
  * Plugin Name:       R2 WC Product Notify
  * Plugin URI:        https://github.com/s0985514623/r2-wc-product-notify
  * Description:       為WC商品加入日期下單並在日期到來前做出Email提醒，或是在商品加入購物車時提醒.
- * Version:           1.1.24
+ * Version:           1.1.25
  * Author:            R2
  * License:           GPL-2.0+
  * Text Domain:       r2-wc-product-notify
