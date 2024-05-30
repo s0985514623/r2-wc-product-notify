@@ -262,8 +262,14 @@ function r2_save_fields_product_meta( $id ) {
 	isset( $_POST['r2_online_content'] ) && update_post_meta( $id, 'r2_online_content', $_POST['r2_online_content'] );
 	isset( $_POST['r2_live_time_title'] ) && update_post_meta( $id, 'r2_live_time_title', sanitize_text_field( $_POST['r2_live_time_title'] ) );
 	isset( $_POST['r2_live_time'] ) && update_post_meta( $id, 'r2_live_time', $_POST['r2_live_time'] );
-}
 
+	// simple product
+	isset( $_POST['r2_text_field_link_simple'] ) && update_post_meta( $id, 'r2_text_field_link_simple', sanitize_text_field( $_POST['r2_text_field_link_simple'] ) );
+	isset( $_POST['r2_text_field_note_simple'] ) && update_post_meta( $id, 'r2_text_field_note_simple', sanitize_text_field( $_POST['r2_text_field_note_simple'] ) );
+	isset( $_POST['r2_text_field_time_simple'] ) && update_post_meta( $id, 'r2_text_field_time_simple', sanitize_text_field( $_POST['r2_text_field_time_simple'] ) );
+	isset( $_POST['r2_text_field_location_simple'] ) && update_post_meta( $id, 'r2_text_field_location_simple', sanitize_text_field( $_POST['r2_text_field_location_simple'] ) );
+	isset( $_POST['r2_course_note_simple'] ) && update_post_meta( $id, 'r2_course_note_simple', ( $_POST['r2_course_note_simple'] ) );
+}
 
 // 可變商品變化類型加入自定義欄位
 \add_action( 'woocommerce_product_after_variable_attributes', __NAMESPACE__ . '\r2_field', 10, 3 );
@@ -360,4 +366,75 @@ function r2_save_fields_variation( $variation_id, $loop ) {
 	// //Course Note2 Field
 	// $text_field_course_note2 = !empty($_POST['r2_course_note2' . $loop]) ? $_POST['r2_course_note2' . $loop] : '';
 	// update_post_meta($variation_id, 'r2_course_note2', $text_field_course_note2);
+}
+
+// 於簡單商品一般頁籤加入自定義欄位
+\add_action( 'woocommerce_product_options_general_product_data', __NAMESPACE__ . '\r2_simple_fields' );
+function r2_simple_fields() {
+	// get product id.
+	$product_id = get_the_ID();
+	// 取得商品的是否啟用信用通知設定 =>yes || ''.
+	$is_enable = get_post_meta( $product_id, 'r2_is_enable', true );
+	if ( 'yes' !== $is_enable ) {
+		return;
+	}
+	// 表單連結.
+	woocommerce_wp_text_input(
+		array(
+			'id'            => 'r2_text_field_link_simple',
+			'label'         => '表單連結',
+			'wrapper_class' => 'form-row',
+			'placeholder'   => '在此輸入表單連結',
+			'desc_tip'      => true,
+			'description'   => '可以直接輸入網址，將會自動轉換成超連結',
+			'value'         => get_post_meta( $product_id, 'r2_text_field_link_simple', true ),
+		)
+	);
+	// 表單備註
+	woocommerce_wp_text_input(
+		array(
+			'id'            => 'r2_text_field_note_simple',
+			'label'         => '表單備註',
+			'wrapper_class' => 'form-row',
+			'placeholder'   => '在此輸入表單備註',
+			'desc_tip'      => true,
+			'description'   => '在此輸入表單備註',
+			'value'         => get_post_meta( $product_id, 'r2_text_field_note_simple', true ),
+		)
+	);
+	// 課程時間
+	woocommerce_wp_text_input(
+		array(
+			'id'            => 'r2_text_field_time_simple',
+			'label'         => '課程時間',
+			'wrapper_class' => 'form-row',
+			'placeholder'   => '在此輸入課程時間',
+			'desc_tip'      => true,
+			'description'   => '在此輸入課程時間',
+			'value'         => get_post_meta( $product_id, 'r2_text_field_time_simple', true ),
+		)
+	);
+	// 課程地點
+	woocommerce_wp_text_input(
+		array(
+			'id'            => 'r2_text_field_location_simple',
+			'label'         => '課程地點',
+			'wrapper_class' => 'form-row',
+			'placeholder'   => '在此輸入課程地點',
+			'desc_tip'      => true,
+			'description'   => '在此輸入課程地點',
+			'value'         => get_post_meta( $product_id, 'r2_text_field_location_simple', true ),
+		)
+	);
+	// 課程備註
+	woocommerce_wp_textarea_input(
+		array(
+			'id'          => 'r2_course_note_simple',
+			'value'       => get_post_meta( $product_id, 'r2_course_note_simple', true ),
+			'label'       => '課程備註',
+			'desc_tip'    => true,
+			'rows'        => 5,
+			'description' => '課程備註',
+		)
+	);
 }
