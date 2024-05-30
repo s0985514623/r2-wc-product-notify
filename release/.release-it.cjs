@@ -46,6 +46,7 @@ module.exports = {
   },
   allowedItems: [
     "inc",
+    "assets",
     "composer.json",
     "composer.lock",
     "index.php",
