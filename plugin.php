@@ -66,6 +66,7 @@ if ( ! \class_exists( 'R2\WpMyAppPlugin\MyApp\Inc\Plugin' ) ) {
 			require_once R2_WC_PRODUCT_NOTIFY_DIR . '/inc/admin/order-date-cron.php';
 			require_once R2_WC_PRODUCT_NOTIFY_DIR . '/inc/admin/settingPage.php';
 			require_once R2_WC_PRODUCT_NOTIFY_DIR . '/inc/frontend/index.php';
+			require_once R2_WC_PRODUCT_NOTIFY_DIR . '/inc/admin/class-ajax.php';
 			\register_activation_hook( __FILE__, array( $this, 'r2_activate' ) );
 			\register_deactivation_hook( __FILE__, array( $this, 'r2_deactivate' ) );
 			\add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );

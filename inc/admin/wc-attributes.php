@@ -7,8 +7,17 @@ namespace R2\WC_Product_Notify\AttributesSetting;
 function enqueue_r2_wc_ajax() {
 	// 添加自定义 JavaScript 文件，并自动加载 WordPress 默认的 jQuery 版本号
 	wp_enqueue_script( 'r2-wc-ajax', home_url() . '/wp-content/plugins/r2-wc-product-notify/assets/js/r2-wc-ajax.js', array( 'jquery' ), false, true );
+	wp_localize_script(
+		'r2-wc-ajax',
+		'r2_wc_ajax_object',
+		array(
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'nonce'    => wp_create_nonce( 'r2_wc_ajax_nonce' ),
+		)
+	);
 	wp_enqueue_script( 'jquery-ui-dialog' );
 	wp_enqueue_style( 'wp-jquery-ui-dialog' );
+	wp_enqueue_style( 'r2-notify-page-content', home_url() . '/wp-content/plugins/r2-wc-product-notify/assets/css/r2-notify-page-content.css', );
 }
 
 
@@ -275,6 +284,12 @@ function r2_save_fields_product_meta( $id ) {
 \add_action( 'woocommerce_product_after_variable_attributes', __NAMESPACE__ . '\r2_field', 10, 3 );
 
 function r2_field( $loop, $variation_data, $variation ) {
+	?>
+	<p class="form-field preview-button-wrap">
+			<label for="">預覽Mail</label>
+			<button id="preview-button" data-variation_id="<?php echo $variation->ID; ?>" data-product_id="<?php echo $variation->post_parent; ?>" style="display:flex;justify-content: center;align-items: center;gap:10px"><div style="height: 16px;display:none" class="loading-spin"  ><svg style="animation: spin 1s linear infinite" xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg {fill: #000000}</style><path d="M222.7 32.1c5 16.9-4.6 34.8-21.5 39.8C121.8 95.6 64 169.1 64 256c0 106 86 192 192 192s192-86 192-192c0-86.9-57.8-160.4-137.1-184.1c-16.9-5-26.6-22.9-21.5-39.8s22.9-26.6 39.8-21.5C434.9 42.1 512 140 512 256c0 141.4-114.6 256-256 256S0 397.4 0 256C0 140 77.1 42.1 182.9 10.6c16.9-5 34.8 4.6 39.8 21.5z" /></svg></div>寄送</button>
+	</p>
+	<?php
 	// 表單連結
 	woocommerce_wp_text_input(
 		array(
@@ -378,6 +393,12 @@ function r2_simple_fields() {
 	if ( 'yes' !== $is_enable ) {
 		return;
 	}
+	?>
+	<p class="form-field preview-button-wrap">
+			<label for="">預覽Mail</label>
+			<button id="preview-button" data-product_id="<?php echo $product_id; ?>" style="display:flex;justify-content: center;align-items: center;gap:10px"><div style="height: 16px;display:none" class="loading-spin"  ><svg style="animation: spin 1s linear infinite" xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg {fill: #000000}</style><path d="M222.7 32.1c5 16.9-4.6 34.8-21.5 39.8C121.8 95.6 64 169.1 64 256c0 106 86 192 192 192s192-86 192-192c0-86.9-57.8-160.4-137.1-184.1c-16.9-5-26.6-22.9-21.5-39.8s22.9-26.6 39.8-21.5C434.9 42.1 512 140 512 256c0 141.4-114.6 256-256 256S0 397.4 0 256C0 140 77.1 42.1 182.9 10.6c16.9-5 34.8 4.6 39.8 21.5z" /></svg></div>寄送</button>
+	</p>
+	<?php
 	// 表單連結.
 	woocommerce_wp_text_input(
 		array(
